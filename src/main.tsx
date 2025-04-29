@@ -12,6 +12,12 @@ import ErrorPage from "./pages/error-page.tsx";
 import ZhanPinDetail from "./pages/zhan-pin-detail.tsx";
 import LoginPage from "./pages/login.tsx";
 import RegPage from "./pages/reg.tsx";
+import PrivateRoute from "./components/private-route.tsx";
+import UserInfoPage from "./pages/user/info.tsx";
+import UserPwd from "./pages/user/pwd.tsx";
+import UserCollection from "./pages/user/collection.tsx";
+import UserFamily from "./pages/user/family.tsx";
+import UserDateLogs from "./pages/user/date.tsx";
 
 const router = createHashRouter([
   {
@@ -32,7 +38,33 @@ const router = createHashRouter([
       },
       {
         path: "user",
-        element: <UserPage />,
+        element: <PrivateRoute />,
+        children: [
+          {
+            index: true,
+            element: <UserPage />,
+          },
+          {
+            path: "info",
+            element: <UserInfoPage />,
+          },
+          {
+            path: "pwd",
+            element: <UserPwd />,
+          },
+          {
+            path: "collection",
+            element: <UserCollection />,
+          },
+          {
+            path: "family",
+            element: <UserFamily />,
+          },
+          {
+            path: "date",
+            element: <UserDateLogs />,
+          },
+        ],
       },
       {
         path: "zhan_pin/:id",

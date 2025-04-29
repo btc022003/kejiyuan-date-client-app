@@ -33,6 +33,7 @@ function HuodongPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
           {data.map((item) => (
             <div
+              key={item.id}
               className="zhanpin-item bg-gray-50 rounded-lg overflow-hidden shadow-lg hover:shadow-xl p-2 transition-shadow cursor-pointer"
               onClick={() => navigate(`/detail/${item.id}`)} // 假设 navigate 是一个跳转函数
             >

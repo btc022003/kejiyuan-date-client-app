@@ -63,7 +63,7 @@ function HomePage() {
           </div>
         </div>
         <div className="zhan-pins mx-auto max-w-6xl py-8 ">
-          <h1 className="text-2xl font-bold text-left mb-4 text-white bg-sky-600 inline-block px-4 py-1">
+          <h1 className="font-bold text-left mb-4 text-white bg-sky-600 inline-block px-4 py-1">
             热门展品
           </h1>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
@@ -89,7 +89,7 @@ function HomePage() {
         </div>
 
         <div className="zhan-pins mx-auto max-w-6xl py-8 ">
-          <h1 className="text-2xl font-bold text-left mb-4 text-white bg-sky-600 inline-block px-4 py-1">
+          <h1 className="font-bold text-left mb-4 text-white bg-sky-600 inline-block px-4 py-1">
             近期活动
           </h1>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-2">

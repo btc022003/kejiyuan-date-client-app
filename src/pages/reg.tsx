@@ -1,8 +1,11 @@
 import React from "react";
-import { Form, Input, Button } from "antd-mobile";
+import { useNavigate } from "react-router";
+import { Form, Input, Button, Toast } from "antd-mobile";
 import dm from "../assets/dm.png";
 import { Link } from "react-router";
+import { regAPI } from "../services/api";
 function RegPage() {
+  const navigate = useNavigate();
   return (
     <div className="m-page p-4">
       <div className="text-center">
@@ -10,7 +13,25 @@ function RegPage() {
         <p className="text-gray-600">全宇宙最大的科技馆</p>
         <img className="w-40 mx-auto block mt-4" src={dm} alt="Logo" />
       </div>
-      <Form className="mt-8">
+      <Form
+        className="mt-8"
+        onFinish={async (v) => {
+          if (v.password == v.repassword) {
+            const res = await regAPI(v.userName, v.password);
+            if (res.success) {
+              Toast.show("注册成功");
+              sessionStorage.setItem("token", res.data.token);
+              setTimeout(() => {
+                navigate("/user");
+              }, 1000);
+            } else {
+              Toast.show(res.errorMessage);
+            }
+          } else {
+            Toast.show("两次密码不一致");
+          }
+        }}
+      >
         <Form.Item
           name="userName"
           label="用户名"

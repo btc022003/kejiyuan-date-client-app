@@ -1,18 +1,39 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router";
-import { loadZhanPinByIdAPI, loadZhanPinComments } from "../services/api";
+import {
+  addToCollectionAPI,
+  commentZhanPinAPI,
+  loadZhanPinByIdAPI,
+  loadZhanPinComments,
+} from "../services/api";
 import { dalImg, formatDate } from "../utils/tools";
-import { Tabs, Form, TextArea, Button } from "antd-mobile";
+import {
+  Tabs,
+  Form,
+  TextArea,
+  Button,
+  Toast,
+  InfiniteScroll,
+} from "antd-mobile";
+import { HeartFill } from "antd-mobile-icons";
 
 function ZhanPinDetail() {
   const { id } = useParams();
   const [data, setData] = useState<IZhanpins | null>();
   const [comments, setComments] = useState<IZhanPinComment[]>([]);
-
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+  const [myForm] = Form.useForm();
   const loadCommentsFromServer = async () => {
-    const res = await loadZhanPinComments(id);
+    const res = await loadZhanPinComments(id, page);
     // console.log(res);
+    const totalPages = Math.ceil(res.data.total / 10);
     setComments([...comments, ...res.data.list]);
+    if (totalPages === page) {
+      setHasMore(false);
+    } else {
+      setPage(page + 1);
+    }
   };
 
   useEffect(() => {
@@ -31,6 +52,22 @@ function ZhanPinDetail() {
         />
         <div className="flex-1">
           <h1 className="text-2xl font-bold text-gray-800">{data?.name}</h1>
+          <HeartFill
+            className="text-2xl "
+            onClick={async () => {
+              if (sessionStorage.getItem("token")) {
+                //
+                const res = await addToCollectionAPI(id);
+                if (res.success) {
+                  Toast.show("收藏成功");
+                } else {
+                  Toast.show(res.errorMessage);
+                }
+              } else {
+                Toast.show("请先登录");
+              }
+            }}
+          />
           <p className="text-gray-600 mt-2">{data?.summary}</p>
         </div>
       </div>
@@ -47,9 +84,20 @@ function ZhanPinDetail() {
         <Tabs.Tab title="评论" key={2}>
           <>
             <Form
+              form={myForm}
               layout="horizontal"
-              onFinish={(v) => {
-                console.log(v);
+              onFinish={async (v) => {
+                // console.log(v);
+                if (v.content) {
+                  const res = await commentZhanPinAPI(id!, v.content);
+                  Toast.show("评论成功");
+
+                  // 插入最新的评论在最前面
+                  setComments([res.data, ...comments]);
+                  myForm.resetFields();
+                } else {
+                  Toast.show("评论内容不能为空");
+                }
               }}
             >
               <Form.Item name="content">
@@ -90,6 +138,16 @@ function ZhanPinDetail() {
               ))}
             </div>
           </>
+          <InfiniteScroll
+            threshold={50}
+            hasMore={hasMore}
+            loadMore={async () => {
+              // console.log("加载更多");
+              if (comments.length > 0) {
+                loadCommentsFromServer();
+              }
+            }}
+          />
         </Tabs.Tab>
       </Tabs>
     </div>

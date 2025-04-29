@@ -46,3 +46,12 @@ interface IZhanPinComment {
   userId: string;
   user: IUser;
 }
+
+interface ICollection {
+  id: string;
+  createdAt: string;
+  updatedAt: string;
+  zhanPinId: string;
+  userId: string;
+  zhanPin: IZhanpins;
+}
