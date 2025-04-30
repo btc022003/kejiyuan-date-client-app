@@ -156,3 +156,61 @@ export const loadUserCollectionsAPI = () => get("/api/v1/user/collects");
  */
 export const delUserCollectionByIdAPI = (id: string) =>
   del("/api/v1/user/collects/" + id);
+
+/**
+ * 获取家庭成员信息
+ * @returns
+ */
+export const loadUserFamiliesAPI = () => get("/api/v1/user/family_members");
+
+/**
+ * 添加家庭成员
+ * @param data
+ * @returns
+ */
+export const addUserFamilyAPI = (data: {
+  realName: string;
+  mobile: string;
+  ids: string;
+}) => {
+  return post(`/api/v1/user/family_members`, data);
+};
+
+/**
+ * 删除家庭成员
+ * @param id
+ * @returns
+ */
+export const delUserFamilyByIdAPI = (id: string) =>
+  del("/api/v1/user/family_members/" + id);
+
+/**
+ * 修改家庭成员信息
+ * @param id    需要修改的id
+ * @param data  数据
+ * @returns
+ */
+export const editUserFamilyAPI = (
+  id: string,
+  data: {
+    realName: string;
+    mobile: string;
+    ids: string;
+  }
+) => {
+  return put(`/api/v1/user/family_members/` + id, data);
+};
+
+/**
+ * 获取用户的预约记录
+ * @returns
+ */
+export const loadUserDateLogsAPI = () => get("/api/v1/user/yu_yues");
+
+/**
+ * 预约参观
+ * @param data
+ * @returns
+ */
+export const addToDateAPI = (data: { date: string; dateFamilies: string[] }) =>
+  post("/api/v1/user/date", data);

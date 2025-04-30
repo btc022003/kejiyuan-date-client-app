@@ -55,3 +55,31 @@ interface ICollection {
   userId: string;
   zhanPin: IZhanpins;
 }
+
+interface IUserFamily {
+  id: string;
+  realName: string;
+  mobile: string;
+  ids: string;
+  createdAt: string;
+  updatedAt: string;
+  userId: string;
+}
+
+interface IUserDateFamilies {
+  id: string;
+  createdAt: string;
+  updatedAt: string;
+  userDateId: string;
+  userFamilyId: string;
+  userFamily: IUserFamily;
+}
+
+interface IUserDate {
+  id: string;
+  dateShiJian: string;
+  createdAt: string;
+  updatedAt: string;
+  userId: string;
+  userDateFamilies: IUserDateFamilies[];
+}

@@ -18,6 +18,8 @@ import UserPwd from "./pages/user/pwd.tsx";
 import UserCollection from "./pages/user/collection.tsx";
 import UserFamily from "./pages/user/family.tsx";
 import UserDateLogs from "./pages/user/date.tsx";
+import FamilyEditPage from "./pages/user/family-edit.tsx";
+import ToDatePage from "./pages/user/to-date.tsx";
 
 const router = createHashRouter([
   {
@@ -61,8 +63,16 @@ const router = createHashRouter([
             element: <UserFamily />,
           },
           {
+            path: "family/edit",
+            element: <FamilyEditPage />,
+          },
+          {
             path: "date",
             element: <UserDateLogs />,
+          },
+          {
+            path: "to_date",
+            element: <ToDatePage />,
           },
         ],
       },

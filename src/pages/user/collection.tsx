@@ -11,7 +11,8 @@ function UserCollection() {
   const [data, setData] = useState<ICollection[]>([]);
   const loadDataFromServer = () => {
     loadUserCollectionsAPI().then((res) => {
-      setData(res.data);
+      // 过滤一下服务器返回的数据，如果展品不存在就不显示
+      setData(res.data.filter((item: ICollection) => item.zhanPin));
     });
   };
   useEffect(() => {
@@ -27,6 +28,9 @@ function UserCollection() {
         我的收藏
       </NavBar>
       <div className="collections grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-8">
+        {data.length == 0 && (
+          <div className="text-center text-gray-500">暂无数据</div>
+        )}
         {data.map((item) => (
           <div
             className="item bg-white shadow-md rounded-lg overflow-hidden"
